@@ -1,10 +1,7 @@
 import game.Game;
-import player.Player;
-
-import java.util.Scanner;
-
 import static sounds.SoundManager.musicStopOrPlay;
 import static sounds.SoundManager.playSound;
+
 
 public class AdventureApp {
     public static void main(String[] args) {

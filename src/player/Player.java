@@ -3,6 +3,8 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
+import static sounds.SoundManager.playSound;
+
 enum CharacterType {
     SAMURAI, KNIGHT, ARCHER
 }
@@ -64,7 +66,7 @@ public class Player {
                         this.damage = 15;
                     }
                 }
-
+                new Thread(() -> playSound("src/sounds/music/character_sound.wav")).start();
                 System.out.println("You have chosen: " + this.characterType);
                 System.out.println(characterType + "'s health: " + getHealth() + " and damage: " + getDamage());
 
@@ -77,7 +79,9 @@ public class Player {
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a number.");
                 sc.nextLine();
+
             }
+
         }
     }
 
