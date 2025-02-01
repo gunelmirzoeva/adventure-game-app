@@ -42,7 +42,7 @@ public class Game {
 
             int choice = getInt("Enter your choice");
             Location location = getLocation(choice);
-
+            System.out.println();
             if (location != null) {
                 location.enter();
                 location.setLocationName(location.getLocationName());
@@ -59,6 +59,7 @@ public class Game {
                 }
             }
         }
+        System.out.println("\n-------------------------------------------\n");
     }
 
     private static Location getLocation(int choice) {

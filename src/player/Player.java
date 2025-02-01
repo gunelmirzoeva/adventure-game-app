@@ -1,103 +1,77 @@
 package player;
-import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Scanner;
+import static util.InputUtil.*;
 
 import static sounds.SoundManager.playSound;
 
-enum CharacterType {
-    SAMURAI, KNIGHT, ARCHER
-}
-
 public class Player {
     private String name;
-    private Integer level;
-    private Integer xp;
-    private Integer money;
-    private Integer health;
-    private Integer damage;
+    private int level;
+    private int xp;
+    private int money;
+    private int health;
+    private int damage;
+    private int maxHealth;
     private CharacterType characterType;
-    private static final Integer LEVEL_UP_XP = 100;
+    private static final int LEVEL_UP_XP = 100;
+
     public Player() {
+        this.money = 20;
     }
+
     public Player(String name, CharacterType characterType) {
         this.name = name;
         this.level = 1;
         this.xp = 0;
-        this.characterType = characterType;
         this.money = 20;
+        setCharacterType(characterType);
     }
+
     public void chooseCharacter() {
-        Scanner sc = new Scanner(System.in);
         boolean validChoice = false;
 
         while (!validChoice) {
-            System.out.println(name + ", choose a character: (If you choose any other number than 1,2,3, it will default to Samurai)");
+            System.out.println(name + ", choose a character:");
             System.out.println("""
                 1. Samurai 
                 2. Knight
                 3. Archer
             """);
-            System.out.print("Enter your choice: ");
+            int choice = getInt("Enter your choice (any other number defaults to Samurai)");
 
-            try {
-                int choice = sc.nextInt();
-                sc.nextLine();
-
-                switch (choice) {
-                    case 1 -> {
-                        this.characterType = CharacterType.SAMURAI;
-                        this.health = 100;
-                        this.damage = 15;
-                    }
-                    case 2 -> {
-                        this.characterType = CharacterType.KNIGHT;
-                        this.health = 120;
-                        this.damage = 12;
-                    }
-                    case 3 -> {
-                        this.characterType = CharacterType.ARCHER;
-                        this.health = 80;
-                        this.damage = 18;
-                    }
-                    default -> {
-                        this.characterType = CharacterType.SAMURAI;
-                        this.health = 100;
-                        this.damage = 15;
-                    }
-                }
-                new Thread(() -> playSound("src/sounds/music/character_sound.wav")).start();
-                System.out.println("You have chosen: " + this.characterType);
-                System.out.println(characterType + "'s health: " + getHealth() + " and damage: " + getDamage());
-
-                System.out.println("Do you want to change your choice (Yes/No)?");
-                String change = sc.nextLine().toLowerCase();
-                if (!change.equalsIgnoreCase("yes")) {
-                    validChoice = true;
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input! Please enter a number.");
-                sc.nextLine();
-
+            switch (choice) {
+                case 2 -> setCharacterType(CharacterType.KNIGHT);
+                case 3 -> setCharacterType(CharacterType.ARCHER);
+                default -> setCharacterType(CharacterType.SAMURAI);
             }
 
+            new Thread(() -> playSound("src/sounds/music/character_sound.wav")).start();
+            System.out.println(" You have chosen: " + this.characterType);
+            System.out.println(" Health: " + this.health + " Damage: " + this.damage);
+
+            String change = getText("Do you want to change your choice? (Yes/No)").toLowerCase();
+            if (!change.equalsIgnoreCase("yes")) {
+                validChoice = true;
+            }
         }
     }
 
-
     private void levelUp() {
-        this.xp -= LEVEL_UP_XP;
-        this.level++;
-        this.health += 10;
-        this.damage += 2;
-        System.out.println(name + ", Congratulations! You have level up! " + "\nYour level is " + this.level);
+        xp -= LEVEL_UP_XP;
+        level++;
+        maxHealth += 10;
+        health = maxHealth;
+        damage += 2;
+
+        System.out.println(name + ", Congratulations! You leveled up!");
+        System.out.println("Level: " + level);
+        System.out.println("Health: " + health + " Damage: " + damage);
     }
 
     public void gainXp(int amount) {
-        this.xp += amount;
-        System.out.println(name + ", You gained " + amount + " XP");
-        while (this.xp >= LEVEL_UP_XP) {
+        xp += amount;
+        System.out.println(name + " gained " + amount + " XP!");
+        while (xp >= LEVEL_UP_XP) {
             levelUp();
         }
     }
@@ -108,6 +82,10 @@ public class Player {
         gainXp(xpGained);
     }
 
+    public void restoreHealth() {
+        this.health = maxHealth;
+    }
+
     public String getName() {
         return name;
     }
@@ -116,43 +94,43 @@ public class Player {
         this.name = name;
     }
 
-    public Integer getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
-    public Integer getXp() {
+    public int getXp() {
         return xp;
     }
 
-    public void setXp(Integer xp) {
+    public void setXp(int xp) {
         this.xp = xp;
     }
 
-    public Integer getMoney() {
+    public int getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(int money) {
         this.money = money;
     }
 
-    public Integer getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public void setHealth(Integer health) {
-        this.health = health;
+    public void setHealth(int health) {
+        this.health = Math.min(health, maxHealth);
     }
 
-    public Integer getDamage() {
+    public int getDamage() {
         return damage;
     }
 
-    public void setDamage(Integer damage) {
+    public void setDamage(int damage) {
         this.damage = damage;
     }
 
@@ -162,9 +140,9 @@ public class Player {
 
     public void setCharacterType(CharacterType characterType) {
         this.characterType = characterType;
+        this.health = this.maxHealth = characterType.getBaseHealth();
+        this.damage = characterType.getBaseDamage();
     }
-
-
 
     @Override
     public String toString() {

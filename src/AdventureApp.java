@@ -8,6 +8,5 @@ public class AdventureApp {
         new Thread(() -> playSound("src/sounds/music/start.wav")).start();
         musicStopOrPlay();
         Game.start();
-        System.out.println("Hello World");
     }
 }
