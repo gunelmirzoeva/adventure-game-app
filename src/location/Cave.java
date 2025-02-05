@@ -7,14 +7,10 @@ public class Cave extends Location {
         super(player, "Cave");
     }
 
-    @Override
-    public void enter() {
-        System.out.println("You have entered the Cave.");
-        // Cave specific actions (e.g., finding enemies)
-    }
 
     @Override
     public boolean onLocation() {
+        System.out.println("You have entered the cave");
         return false;
     }
 }

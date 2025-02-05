@@ -14,7 +14,7 @@ public class SafeHouse extends Location {
     }
 
     @Override
-    public void enter() {
+    public boolean onLocation() {
         System.out.println("\n-------------SAFE HOUSE---------------\n");
         System.out.println("You have entered the Safe House.");
         System.out.println("Health restoration costs $" + HEAL_COST);
@@ -34,10 +34,6 @@ public class SafeHouse extends Location {
         } else {
             System.out.println("You don't have enough money to restore health.");
         }
-    }
-
-    @Override
-    public boolean onLocation() {
         return true;
     }
 }

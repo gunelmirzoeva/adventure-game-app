@@ -7,14 +7,10 @@ public class Forest extends Location {
         super(player, "Forest");
     }
 
-    @Override
-    public void enter() {
-        System.out.println("You have entered the Forest.");
-        onLocation();
-    }
 
     @Override
     public boolean onLocation() {
+        System.out.println("You have entered the forest");
         return false;
     }
 }

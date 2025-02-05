@@ -8,13 +8,8 @@ public class River extends Location {
     }
 
     @Override
-    public void enter() {
-        System.out.println("You have entered the River.");
-        // River specific actions (e.g., fishing)
-    }
-
-    @Override
     public boolean onLocation() {
+        System.out.println("You have entered the River.");
         return false;
     }
 }

@@ -9,8 +9,6 @@ public abstract class Location {
         this.locationName = locationName;
     }
 
-    public abstract void enter();
-
     public Player getPlayer() {
         return player;
     }

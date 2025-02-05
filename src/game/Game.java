@@ -44,7 +44,7 @@ public class Game {
             Location location = getLocation(choice);
             System.out.println();
             if (location != null) {
-                location.enter();
+                location.onLocation();
                 location.setLocationName(location.getLocationName());
                 break;
             } else {
