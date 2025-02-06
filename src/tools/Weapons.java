@@ -5,15 +5,15 @@ import static game.Game.menu;
 import player.Player;
 
 
-import static util.InputUtil.getInt;
+import static util.InputUtil.*;
 
 public class Weapons {
-    int id;
-    String type;
-    int cost;
-    int damageBoost;
+    private Integer id;
+    private String type;
+    private Integer cost;
+    private Integer damageBoost;
 
-    public Weapons(int id, String type, int cost, int damageBoost) {
+    public Weapons(Integer id, String type, Integer cost, Integer damageBoost) {
         this.id = id;
         this.type = type;
         this.cost = cost;
@@ -22,12 +22,12 @@ public class Weapons {
 
     private static Weapons[] setWeapons() {
         Weapons[] weapons = new Weapons[6];
-        weapons[0] = new Weapons(1, "Gladius", 30, 2);
+        weapons[0] = new Weapons(1, "AK-47", 35, 5);
         weapons[1] = new Weapons(2, "Bazooka", 45, 10);
-        weapons[2] = new Weapons(3, "Pistol", 35, 5);
+        weapons[2] = new Weapons(3, "Pistol", 30, 2);
         weapons[3] = new Weapons(4, "Blaster", 55, 15);
         weapons[4] = new Weapons(5, "Mace", 33, 4);
-        weapons[5] = new Weapons(6, "Sniper(AK-47)", 38, 8);
+        weapons[5] = new Weapons(6, "Sniper", 38, 8);
         return weapons;
     }
 
@@ -58,8 +58,13 @@ public class Weapons {
                         System.out.println("You bought " + weapon.type + "!");
                         System.out.println("New Damage: " + player.getDamage());
                         System.out.println("Remaining Balance: $" + player.getMoney());
+                        System.out.println("\n");
                     } else {
                         System.out.println("Not enough money to buy " + weapon.type + "!");
+                        String answer = getText("Do you want to buy another item? (yes/no)").toLowerCase();
+                        if(!answer.equals("yes")) {
+                            menu();
+                        }
                     }
                     return;//it will be added to your inventory
                 }
