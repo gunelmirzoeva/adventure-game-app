@@ -10,7 +10,6 @@ public class Forest extends Location {
 
     @Override
     public boolean onLocation() {
-        setLocationName("Forest");
         System.out.println("You have entered the " + getLocationName());
         return false;
     }

@@ -10,8 +10,7 @@ public class Cave extends Location {
 
     @Override
     public boolean onLocation() {
-        setLocationName("Cave");
         System.out.println("You have entered the " + getLocationName());
-        return false;
+        return true;
     }
 }

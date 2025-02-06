@@ -4,6 +4,9 @@ import static util.InputUtil.*;
 
 import static sounds.SoundManager.playSound;
 
+import inventory.Inventory;
+import inventory.Weapons;
+
 public class Player {
     private String name;
     private int level;
@@ -15,15 +18,25 @@ public class Player {
     private CharacterType characterType;
     private static final int LEVEL_UP_XP = 100;
 
+    private Weapons equippedWeapon;
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    private Inventory inventory;
+
     public Player() {
-        this.money = 20;
+        this.money = 200;
+        this.inventory = new Inventory();
     }
 
     public Player(String name, CharacterType characterType) {
         this.name = name;
         this.level = 1;
         this.xp = 0;
-        this.money = 20;
+        this.money = 200;
+        this.inventory = new Inventory();
         setCharacterType(characterType);
     }
 
@@ -55,7 +68,17 @@ public class Player {
             }
         }
     }
-
+    public void equipWeapon(String weaponName) {
+        Weapons weapon = inventory.getWeaponByName(weaponName);
+        if (weapon != null) {
+            if (equippedWeapon != null) {
+                damage -= equippedWeapon.getDamageBoost();
+            }
+            equippedWeapon = weapon;
+            damage += equippedWeapon.getDamageBoost();
+            System.out.println("Equipped " + equippedWeapon.getType() + "! New Damage: " + damage);
+        }
+    }
     private void levelUp() {
         xp -= LEVEL_UP_XP;
         level++;
@@ -75,6 +98,7 @@ public class Player {
             levelUp();
         }
     }
+
 
     public void randomXpGained() {
         Random rand = new Random();

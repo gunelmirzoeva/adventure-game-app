@@ -1,5 +1,8 @@
 package location;
 import player.Player;
+
+import static game.Game.menu;
+
 public abstract class Location {
     protected Player player;
     protected String locationName;
@@ -25,4 +28,15 @@ public abstract class Location {
         this.locationName = locationName;
     }
     public abstract boolean onLocation();
+    public void leaveLocation() {
+
+        System.out.printf("Leaving the %s...\n", getLocationName());
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
+        System.out.println();
+        menu();
+    }
 }

@@ -1,10 +1,9 @@
 package location;
+import inventory.Armors;
 import player.Player;
-import tools.Weapons;
-import tools.Armors;
-import static game.Game.menu;
+import inventory.Weapons;
+
 import static util.InputUtil.getInt;
-import static loading.Loading.showLoadingBar;
 
 public class ToolStore extends Location {
 
@@ -16,7 +15,7 @@ public class ToolStore extends Location {
     @Override
     public boolean onLocation() {
         System.out.println("\n-------------TOOL STORE---------------\n");
-        System.out.println("You have entered the Tool Store.");
+        System.out.println("You have entered the " + getLocationName());
 
         while(true) {
             System.out.println("Your current balance: $" + player.getMoney());
@@ -32,14 +31,7 @@ public class ToolStore extends Location {
                 case 1 -> buyWeapon();
                 case 2 -> buyArmor();
                 case 3 -> {
-                    System.out.println("Leaving the Tool Store...");
-                    try{
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        System.out.println(e);
-                    }
-                    System.out.println();
-                    menu();
+                    leaveLocation();
                     return true;
                 }
                 default -> System.out.println("Invalid choice. Please enter 1, 2, or 3.");
@@ -48,10 +40,10 @@ public class ToolStore extends Location {
 
     }
     private void buyWeapon() {
-        Weapons.buyWeapon(player);
+        Weapons.buyWeapon(player, this);
     }
     private void buyArmor() {
-        //Armors.buyArmor(player);
+       Armors.buyArmor(player, this);
     }
 
 }

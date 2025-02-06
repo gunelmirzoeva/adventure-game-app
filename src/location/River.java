@@ -9,7 +9,6 @@ public class River extends Location {
 
     @Override
     public boolean onLocation() {
-        setLocationName("River");
         System.out.println("You have entered the " + getLocationName());
         return false;
     }

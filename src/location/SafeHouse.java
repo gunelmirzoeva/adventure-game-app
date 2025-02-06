@@ -13,7 +13,6 @@ public class SafeHouse extends Location {
 
     @Override
     public boolean onLocation() {
-        setLocationName("Safe House");
         System.out.println("\n-------------SAFE HOUSE---------------\n");
         System.out.println("You have entered the " + getLocationName());
         if(player.getHealth() == player.getCharacterType().getBaseHealth()) {
