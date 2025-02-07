@@ -2,9 +2,7 @@ package inventory;
 
 import location.ToolStore;
 import player.Player;
-
-
-import static sounds.SoundManager.playSound;
+import static sounds.SoundManager.playSoundEffect;
 import static util.InputUtil.*;
 
 public class Armors {
@@ -47,6 +45,7 @@ public class Armors {
     }
 
     private static void showArmors() {
+        System.out.println("----------ARMORS-----------");
         Armors[] armors = setArmors();
         for (Armors armor : armors) {
             System.out.println(armor.id + ". " + armor.type + " | Cost: $" + armor.cost + " | Defense: +" + armor.armorBoost);
@@ -84,7 +83,7 @@ public class Armors {
 
             if (player.getMoney() >= selectedArmor.getCost()) {
                 player.setMoney(player.getMoney() - selectedArmor.getCost());
-                new Thread(() -> playSound("src/sounds/music/item_added.wav")).start();
+                new Thread(() -> playSoundEffect("src/sounds/music/item_added.wav")).start();
                 System.out.println("You bought " + selectedArmor.getType() + "!");
                 player.getInventory().addArmor(selectedArmor);
                 System.out.println("New Balance: $" + player.getMoney());

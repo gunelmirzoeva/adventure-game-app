@@ -1,5 +1,6 @@
 package location;
 import inventory.Armors;
+import inventory.Inventory;
 import player.Player;
 import inventory.Weapons;
 
@@ -32,7 +33,7 @@ public class ToolStore extends Location {
                 case 2 -> buyArmor();
                 case 3 -> {
                     leaveLocation();
-                    return true;
+                    return false;
                 }
                 default -> System.out.println("Invalid choice. Please enter 1, 2, or 3.");
             }

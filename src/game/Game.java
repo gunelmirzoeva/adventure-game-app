@@ -1,6 +1,9 @@
 package game;
 
 import location.*;
+import location.danger_zone.Cave;
+import location.danger_zone.Forest;
+import location.danger_zone.River;
 import player.Player;
 
 import static util.InputUtil.*;

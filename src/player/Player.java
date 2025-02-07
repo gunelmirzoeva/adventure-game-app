@@ -2,10 +2,10 @@ package player;
 import java.util.Random;
 import static util.InputUtil.*;
 
-import static sounds.SoundManager.playSound;
+import static sounds.SoundManager.playSoundEffect;
 
 import inventory.Inventory;
-import inventory.Weapons;
+
 
 public class Player {
     private String name;
@@ -17,8 +17,6 @@ public class Player {
     private int maxHealth;
     private CharacterType characterType;
     private static final int LEVEL_UP_XP = 100;
-
-    private Weapons equippedWeapon;
 
     public Inventory getInventory() {
         return inventory;
@@ -46,10 +44,10 @@ public class Player {
         while (!validChoice) {
             System.out.println(name + ", choose a character:");
             System.out.println("""
-                1. Samurai 
-                2. Knight
-                3. Archer
-            """);
+                        1. Samurai 
+                        2. Knight
+                        3. Archer
+                    """);
             int choice = getInt("Enter your choice (any other number defaults to Samurai)");
 
             switch (choice) {
@@ -58,7 +56,7 @@ public class Player {
                 default -> setCharacterType(CharacterType.SAMURAI);
             }
 
-            new Thread(() -> playSound("src/sounds/music/character_sound.wav")).start();
+            new Thread(() -> playSoundEffect("src/sounds/music/character_sound.wav")).start();
             System.out.println(" You have chosen: " + this.characterType);
             System.out.println(" Health: " + this.health + " Damage: " + this.damage);
 
@@ -66,17 +64,6 @@ public class Player {
             if (!change.equalsIgnoreCase("yes")) {
                 validChoice = true;
             }
-        }
-    }
-    public void equipWeapon(String weaponName) {
-        Weapons weapon = inventory.getWeaponByName(weaponName);
-        if (weapon != null) {
-            if (equippedWeapon != null) {
-                damage -= equippedWeapon.getDamageBoost();
-            }
-            equippedWeapon = weapon;
-            damage += equippedWeapon.getDamageBoost();
-            System.out.println("Equipped " + equippedWeapon.getType() + "! New Damage: " + damage);
         }
     }
     private void levelUp() {
@@ -149,6 +136,7 @@ public class Player {
     public void setHealth(int health) {
         this.health = Math.min(health, maxHealth);
     }
+
 
     public int getDamage() {
         return damage;

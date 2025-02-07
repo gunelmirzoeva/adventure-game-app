@@ -1,11 +1,10 @@
 package inventory;
-import static game.Game.menu;
 
 import location.ToolStore;
 import player.Player;
 
 
-import static sounds.SoundManager.playSound;
+import static sounds.SoundManager.playSoundEffect;
 import static util.InputUtil.*;
 
 public class Weapons {
@@ -48,6 +47,7 @@ public class Weapons {
     }
 
     private static void showWeapons() {
+        System.out.println("-----------WEAPONS----------");
         Weapons[] weapons = setWeapons();
         for (Weapons weapon : weapons) {
             System.out.println(weapon.id + ". " + weapon.type + " | Cost: $" + weapon.cost + " | Damage: +" + weapon.damageBoost);
@@ -85,9 +85,9 @@ public class Weapons {
 
             if (player.getMoney() >= selectedWeapon.getCost()) {
                 player.setMoney(player.getMoney() - selectedWeapon.getCost());
-                new Thread(() -> playSound("src/sounds/music/item_added.wav")).start();
+                new Thread(() -> playSoundEffect("src/sounds/music/item_added.wav")).start();
                 System.out.println("You bought " + selectedWeapon.getType() + "!");
-                player.getInventory().addWeapon(selectedWeapon);
+                player.getInventory().addWeapon(selectedWeapon, player);
                 System.out.println("New Balance: $" + player.getMoney());
                 System.out.println();
                 System.out.println("\nYour Updated Inventory:");

@@ -2,6 +2,7 @@ package location;
 import player.Player;
 
 import static game.Game.menu;
+import static loading.Loading.loading;
 
 public abstract class Location {
     protected Player player;
@@ -31,12 +32,7 @@ public abstract class Location {
     public void leaveLocation() {
 
         System.out.printf("Leaving the %s...\n", getLocationName());
-        try{
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
-        System.out.println();
+        loading(1000);
         menu();
     }
 }

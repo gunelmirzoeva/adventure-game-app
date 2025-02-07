@@ -21,4 +21,13 @@ public class Loading {
             System.err.println(e.getMessage());
         }
     }
+    public static void loading(int speed) {
+        try{
+            Thread.sleep(speed);
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
+        System.out.println();
+    }
+
 }

@@ -1,8 +1,9 @@
 package location;
+import loading.Loading;
 import player.Player;
 import static loading.Loading.showLoadingBar;
 import static game.Game.menu;
-import static sounds.SoundManager.playSound;
+import static sounds.SoundManager.playSoundEffect;
 
 public class SafeHouse extends Location {
 
@@ -22,16 +23,12 @@ public class SafeHouse extends Location {
         }
         else {
             showLoadingBar(20,30);
-            new Thread(() -> playSound("src/sounds/music/health.wav")).start();
+            new Thread(() -> playSoundEffect("src/sounds/music/health.wav")).start();
 
             player.restoreHealth();
             System.out.println("\nYour health has been restored to " + player.getHealth() + "!");
             System.out.println("\nLeaving Safe House...\n\n");
-            try{
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            }
+            Loading.loading(1000);
             menu();
         }
         return true;
