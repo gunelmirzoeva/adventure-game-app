@@ -1,8 +1,7 @@
 package location.danger_zone;
-import location.Location;
 import player.Player;
 
-public class River extends Location {
+public class River extends DangerZone {
 
     public River(Player player) {
         super(player, "River");
@@ -10,7 +9,7 @@ public class River extends Location {
 
     @Override
     public boolean onLocation() {
-        System.out.println("You have entered the " + getLocationName());
-        return false;
+        return super.onLocation();
     }
 }
+

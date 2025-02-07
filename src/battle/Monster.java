@@ -1,26 +1,27 @@
 package battle;
-
+import inventory.Armors;
+import inventory.Inventory;
 import player.Player;
 
 import java.util.Random;
 
 public class Monster {
-    private String monsterName;
-    private Integer monsterDamage;
+    private final MonsterType type;
+    private final Integer monsterDamage;
     private Integer monsterHealth;
-    private Integer treasure;
+    private final Integer treasure;
 
     private static final Random random = new Random();
 
-    public Monster(String monsterName, Integer monsterDamage, Integer monsterHealth) {
-        this.monsterName = monsterName;
-        this.monsterDamage = monsterDamage;
-        this.monsterHealth = monsterHealth;
+    public Monster(MonsterType type) {
+        this.type = type;
+        this.monsterDamage = type.getBaseDamage();
+        this.monsterHealth = type.getBaseHealth();
         this.treasure = random.nextInt(3) + 1;
     }
 
     public String getMonsterName() {
-        return monsterName;
+        return type.getName();
     }
     public Integer getMonsterDamage() {
         return monsterDamage;
@@ -36,25 +37,34 @@ public class Monster {
     }
 
     public void takeDamage(int damage) {
-        this.monsterHealth -= damage;
-        if(this.monsterHealth <= 0) {
-            this.monsterHealth = 0;
-            System.out.println(monsterName + " has been defeated!\n");
+        monsterHealth = Math.max(monsterHealth - damage, 0);
+        if(monsterHealth == 0) {
+            System.out.println(getMonsterName() + " has been defeated!\n");
         } else {
-            System.out.println(monsterName + " took " + damage + " damage. Remaining health: " + monsterHealth);
+            System.out.println(getMonsterName() + " took " + damage + " damage. Remaining health: " + monsterHealth);
         }
     }
 
     public void attack(Player player) {
-        System.out.println(monsterName + " attacks for " + monsterDamage + " damage!\n");
+        System.out.println(getMonsterName() + " attacks for " + monsterDamage + " damage!\n");
+        System.out.println(getMonsterName() + "'s current health: " + monsterHealth);
         player.setHealth(player.getHealth() - monsterDamage);
 
-        if(player.getHealth() <= 0) {
+        if (player.getHealth() <= 0) {
             player.setHealth(0);
-            System.out.println("You have been defeated by " + monsterName + "...\n");
+            System.out.println("You have been defeated by " + getMonsterName() + "...\n");
         } else {
-            System.out.println("Your remaining health: " + player.getHealth());
+            int boost = 0;
+            if(player.getInventory().getEquippedArmor() != null) {
+                boost = player.getInventory().getEquippedArmor().getArmorBoost();
+            }
+            System.out.println("Your remaining health: " + (player.getHealth() + boost));
         }
+    }
+
+
+    public String getSoundEffect() {
+        return type.getSoundEffectPath();
     }
 
 }

@@ -166,6 +166,7 @@ public class Inventory {
             unequipArmor();
         }
         equippedArmor = armor;
+
         player.setHealth(player.getHealth() + armor.getArmorBoost());
         System.out.println("Equipped " + armor.getType() + " (Defense: +" + armor.getArmorBoost() + ").");
     }

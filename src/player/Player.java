@@ -4,6 +4,8 @@ import static util.InputUtil.*;
 
 import static sounds.SoundManager.playSoundEffect;
 
+import battle.Monster;
+import battle.MonsterType;
 import inventory.Inventory;
 
 
@@ -96,6 +98,9 @@ public class Player {
     public void restoreHealth() {
         this.health = maxHealth;
     }
+
+
+
 
     public String getName() {
         return name;
