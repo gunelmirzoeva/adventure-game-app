@@ -3,57 +3,64 @@ package sounds;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class SoundManager {
-    private static Clip audioClip;
+    private static Clip musicClip;  // For background music
+    private static Clip soundEffectClip;  // For short sound effects
 
-    public static void playSound(String filePath) {
+    // Play background music (looping)
+    public static void playMusic(String filePath) {
         try {
-            // Check if the file exists
-            File soundFile = new File(filePath);
-            if (!soundFile.exists()) {
-                System.err.println("File not found: " + filePath);
+            stopMusic(); // Ensure previous music stops
+
+            File musicFile = new File(filePath);
+            if (!musicFile.exists()) {
+                System.err.println("Music file not found: " + filePath);
                 return;
             }
 
-            // Load the sound file
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
-
-            // Get a data line to play the sound
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
             AudioFormat format = audioInputStream.getFormat();
             DataLine.Info info = new DataLine.Info(Clip.class, format);
 
-            // Open the audio clip
-            audioClip = (Clip) AudioSystem.getLine(info);
-            audioClip.open(audioInputStream);
+            musicClip = (Clip) AudioSystem.getLine(info);
+            musicClip.open(audioInputStream);
+            musicClip.loop(Clip.LOOP_CONTINUOUSLY);  // Loop music infinitely
+            musicClip.start();
 
-            // Start playing the sound
-            audioClip.start();
-        } catch (UnsupportedAudioFileException e) {
-            System.err.println("Unsupported audio file format: " + e.getMessage());
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-        } catch (LineUnavailableException e) {
-            System.err.println("Audio line unavailable: " + e.getMessage());
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.err.println("Error playing music: " + e.getMessage());
         }
     }
 
-    public static void stopSound() {
-        if (audioClip != null && audioClip.isRunning()) {
-            audioClip.stop();
-            System.out.println("Music stopped.");
-        } else {
-            System.out.println("No music is playing.");
+    // Stop background music
+    public static void stopMusic() {
+        if (musicClip != null && musicClip.isRunning()) {
+            musicClip.stop();
+            musicClip.close();
         }
     }
 
-    public static void musicStopOrPlay() {
-        System.out.println("Do you want to stop music or play? If yes music will stop playing...\n");
-        Scanner sc = new Scanner(System.in);
-        String answer = sc.nextLine().toLowerCase();
-        if(answer.equalsIgnoreCase("yes")) {
-            stopSound();
+    // Play a short sound effect (one-time)
+    public static void playSoundEffect(String filePath) {
+        try {
+            File soundFile = new File(filePath);
+            if (!soundFile.exists()) {
+                System.err.println("Sound effect file not found: " + filePath);
+                return;
+            }
+
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            AudioFormat format = audioInputStream.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+            soundEffectClip = (Clip) AudioSystem.getLine(info);
+            soundEffectClip.open(audioInputStream);
+            soundEffectClip.start(); // Play sound once
+
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.err.println("Error playing sound effect: " + e.getMessage());
         }
     }
 }
