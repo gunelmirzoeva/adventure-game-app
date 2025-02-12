@@ -1,6 +1,4 @@
 package battle;
-import inventory.Armors;
-import inventory.Inventory;
 import player.Player;
 
 import java.util.Random;

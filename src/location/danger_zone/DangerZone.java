@@ -101,14 +101,11 @@ public class DangerZone extends Location {
                 stopMusic();
                 loading(2000);
 
-                if (getText("Do you want to play again?(yes/no)").equalsIgnoreCase("yes")) {
-                    onLocation();
-                } else {
                     new Thread(() -> playMusic("src/sounds/music/start.wav")).start();
                     if (getText("Do you want to stop the music? (yes/no)").equalsIgnoreCase("yes")) {
                         stopMusic();
                     }
-                }
+                    menu();
                 return;
             }
             if (player.getHealth() <= 0) {
@@ -119,7 +116,6 @@ public class DangerZone extends Location {
                 System.out.println("Game Over.........");
                 stopMusic();
                 loading(2000);
-
                 if (getText("Do you want to play again?(yes/no)").equalsIgnoreCase("yes")) {
                     player.restoreHealth();
                     onLocation();
@@ -128,8 +124,10 @@ public class DangerZone extends Location {
                     if (getText("Do you want to stop the music? (yes/no)").equalsIgnoreCase("yes")) {
                         stopMusic();
                     }
-
+                    System.out.println("Returning to main menu...");
+                    loading(1500);
                     menu();
+                    return;
                 }
                 return;
             }

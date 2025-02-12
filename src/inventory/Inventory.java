@@ -4,7 +4,6 @@ import player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static loading.Loading.loading;
 import static util.InputUtil.getText;
 
@@ -29,11 +28,11 @@ public class Inventory {
 
     }
 
-    public void removeWeapon(Weapons weapon) {
+    public void removeWeapon(Player player, Weapons weapon) {
         if (weapons.remove(weapon)) {
             System.out.println(weapon.getType() + " has been removed from your inventory.");
             if (equippedWeapon == weapon) {
-                unequipWeapon();
+                unequipWeapon(player);
             }
         } else {
             System.out.println("Weapon not found in inventory.");
@@ -46,16 +45,17 @@ public class Inventory {
 
         }
         if (equippedWeapon != null) {
-            unequipWeapon();
+            unequipWeapon(player);
         }
         equippedWeapon = weapon;
-        player.setDamage(player.getDamage() + weapon.getDamageBoost());
+        player.setDamage(player.getCharacterType().getBaseDamage() + weapon.getDamageBoost());
         System.out.println("Equipped " + weapon.getType() + " (Damage: +" + weapon.getDamageBoost() + ").");
     }
 
-    public void unequipWeapon() {
+    public void unequipWeapon(Player player) {
         if (equippedWeapon != null) {
             System.out.println("Unequipped " + equippedWeapon.getType() + ".");
+            player.setDamage(player.getCharacterType().getBaseDamage());
             equippedWeapon = null;
         }
     }
@@ -146,12 +146,12 @@ public class Inventory {
 
     }
 
-    public void removeArmor(Armors armor) {
+    public void removeArmor(Player player, Armors armor) {
         if (armors.remove(armor)) {
             System.out.println(armor.getType() + " has been removed from your inventory.");
         } else {
             if (equippedArmor == armor) {
-                unequipArmor();
+                unequipArmor(player);
             }
             System.out.println("Armor not found in inventory.");
         }
@@ -163,17 +163,18 @@ public class Inventory {
             return;
         }
         if (equippedArmor != null) {
-            unequipArmor();
+            unequipArmor(player);
         }
         equippedArmor = armor;
 
-        player.setHealth(player.getHealth() + armor.getArmorBoost());
+        player.setHealth(player.getCharacterType().getBaseHealth() + armor.getArmorBoost());
         System.out.println("Equipped " + armor.getType() + " (Defense: +" + armor.getArmorBoost() + ").");
     }
 
-    public void unequipArmor() {
+    public void unequipArmor(Player player) {
         if (equippedArmor != null) {
             System.out.println("Unequipped " + equippedArmor.getType() + ".");
+            player.setHealth(player.getCharacterType().getBaseHealth());
             equippedArmor = null;
         }
     }
