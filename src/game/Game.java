@@ -1,6 +1,9 @@
 package game;
 
 import location.*;
+import location.danger_zone.Cave;
+import location.danger_zone.Forest;
+import location.danger_zone.River;
 import player.Player;
 
 import static util.InputUtil.*;
@@ -42,9 +45,9 @@ public class Game {
 
             int choice = getInt("Enter your choice");
             Location location = getLocation(choice);
-
+            System.out.println();
             if (location != null) {
-                location.enter();
+                location.onLocation();
                 location.setLocationName(location.getLocationName());
                 break;
             } else {
@@ -59,6 +62,7 @@ public class Game {
                 }
             }
         }
+        System.out.println("\n-------------------------------------------\n");
     }
 
     private static Location getLocation(int choice) {
